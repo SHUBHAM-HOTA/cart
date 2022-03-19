@@ -7,15 +7,66 @@ class CartItem extends React.Component {
             price: 999,
             title: 'Mobile Phone',
             qty: 1,
-            img: ''
+            img: '' 
         }
+        //this.testing();
     }
+
+
+    // testing() {
+    //   const promise = new Promise((resolve,reject)=>{
+    //     setTimeout(()=>{
+    //       resolve('done');
+
+    //     },5000);
+    //   })
+    //   promise.then(()=>{
+
+    //     //here setState works like a synchronus call
+    //     this.setState({qty: this.state.qty + 10});
+    //     console.log('state',this.state)
+
+    //   });
+    // }
 
     //initially this was this before we added the arrow because of this instence 
     //increaseQuantity(){
     increaseQuantity= () => {
-        console.log('this.state',this.state)
+        //console.log('this.state',this.state)
+        //the below line will update it in state but not in the vdom
+        //this.state.qty += 1;
+
+        //setState form 1
+        // this.setState({
+        //   qty: this.state.qty + 1
+        // });
+
+        //setsState form 2
+        this.setState((prevState) => {
+            return {
+              qty: prevState.qty + 1
+            }
+          },()=>{
+            console.log(this.state)
+          });
     }
+
+
+    decreaseQuantity = () => {
+      const {qty} = this.state
+      if (qty == 0){
+        return;
+      }
+
+      this.setState((prevState)=>{
+        return{
+          qty: prevState.qty - 1
+        }
+      });
+    }
+
+   
+
 
   render () {
     const { price, title, qty } = this.state;
@@ -27,7 +78,7 @@ class CartItem extends React.Component {
         <div className="right-block">
           <div style={ { fontSize: 25 } }>Phone</div>
           <div style={ { color: '#777' } }>Rs 999</div>
-          <div style={ { color: '#777' } }>Qty: 1</div>
+          <div style={ { color: '#777' } }>Qty: {qty}</div>
           <div className="cart-item-actions">
             {/* Buttons */}
             <img
@@ -37,17 +88,21 @@ class CartItem extends React.Component {
                 //if we dont want to bind here we can use the arrow function in cunstructer function
                 //onClick={this.increaseQuantity.bind(this)}
                 onClick={this.increaseQuantity}
+               
+                
+                
             />
 
             <img 
                 alt="decrease"
                 className="action-icons" 
                 src="https://cdn-icons-png.flaticon.com/512/992/992683.png" 
+                onClick={this.decreaseQuantity}
             />
             <img 
                 alt="delete" 
                 className="action-icons" 
-                src="https://cdn-icons.flaticon.com/png/512/3687/premium/3687412.png?token=exp=1647628420~hmac=3baf762fdc2d215e4448b058a2de5cde" 
+                src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" 
             />
           </div>
         </div>
