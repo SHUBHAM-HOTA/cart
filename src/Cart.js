@@ -35,9 +35,16 @@ class Cart extends React.Component {
       const {products} = this.state;
     return (
       <div className="cart">
-        {/* <CartItem price={99} title={"watch"} qty={1} img={""}/> */}
+         {/* <CartItem price={99} title={"watch"} qty={1} img={""}/>  */}
         {products.map ((product)=>{
-            return <CartItem product = {product} key = {product.id} />
+            //we add the key to the props so that React can diffrecnciate between items
+            
+            return (
+                <CartItem 
+                    product = {product} 
+                    key = {product.id} 
+                />
+            )
         })}
         
       </div>
