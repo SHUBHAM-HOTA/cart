@@ -95,8 +95,11 @@ class App extends React.Component {
 
     let cartTotal = 0;
     products.map((product)=>{
-      cartTotal = cartTotal + product.qty * product.price
-    })
+      if (product.qty > 0){
+        cartTotal = cartTotal + product.qty * product.price
+      }
+      return '';
+    });
     return cartTotal;
   }
 
@@ -118,7 +121,7 @@ class App extends React.Component {
       </div>
     );
   }
-  
+
 }
 
 export default App;
