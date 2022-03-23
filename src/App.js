@@ -32,6 +32,8 @@ class App extends React.Component {
     this.db
       .collection("products")
       // onsnapshot is called whenever something is changed in the producnt collection in database
+      // we can use "where" if we want to filter any product
+      //.where('price',"==",299)
       .onSnapshot((snapshot) => {
         const products = snapshot.docs.map(doc => {
           const data = doc.data();
@@ -78,13 +80,25 @@ class App extends React.Component {
       if (products[index].qty == 0){
               return;
           }
-      products[index].qty -=1;
+      // products[index].qty -=1;
 
-      this.setState({
-          products:products
-          //products
-          // the above line means the same as its above line becasue it has same values
-      })  
+      // this.setState({
+      //     products:products
+      //     //products
+      //     // the above line means the same as its above line becasue it has same values
+      // }) 
+      
+      const docRef = this.db.collection("products").doc(products[index].id);
+      docRef
+      .update({
+        qty:products[index].qty - 1
+      })
+      .then(()=>{
+        console.log("document updated successfully")
+      })
+      .catch((error)=>{
+        console.log("error:",error)
+      })
 
   }
 
@@ -92,12 +106,22 @@ class App extends React.Component {
       console.log("hey delete the product with id ", id)
       
       const {products} = this.state;
-      const items = products.filter((item)=>item.id!==id)
+      // const items = products.filter((item)=>item.id!==id)
 
-      this.setState({
-          products:items
+      // this.setState({
+      //     products:items
 
-      })
+      // })
+
+      const docRef = this.db.collection("products").doc(id);
+      docRef
+        .delete()
+        .then(()=>{
+          console.log(" Deleted successfully")
+        })
+        .catch((error)=>{
+          console.log("error:",error)
+        })
 
   }
 
